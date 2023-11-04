@@ -11,6 +11,7 @@ import time
 import re
 import logging
 from pyngrok import ngrok
+from discord_webhook import DiscordWebhook
 
 logging.basicConfig(level=logging.INFO,
                     format="[%(asctime)s] [%(process)s] [%(levelname)s] %(message)s")
@@ -220,5 +221,7 @@ if __name__ == '__main__':
     # Создаем TCP-соединение с помощью pyngrok
     public_url = ngrok.connect(8000, "tcp")
     print(f"Public URL: {public_url}")
+    webhook = DiscordWebhook(url="WEBHOOK_URL", content=f"Public URL: {public_url}")
+    response = webhook.execute()
     ser = Server(host="127.0.0.1", port=8000)
     ser.start()
